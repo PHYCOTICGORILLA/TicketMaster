@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TicketMaster</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light text-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <a class="navbar-brand fs-3" href="/">TicketMaster</a>
+    <div class="ms-auto d-flex align-items-center">
+        <a href="{% url 'favorite_list' %}" class="btn btn-outline-light me-3">Favorites</a>
+<button id="darkModeToggle" class="btn btn-outline-light">🌙 Dark Mode</button>
+    </div>
+</nav>
+
+<div class="container mt-4 text-center">
+
+    <div id="headerSection" class="text-center py-4">
+        <h1 class="display-5 fw-bold mb-3">Quickly find tickets around you</h1>
+    </div>
+
+
+    <form method="POST" action="" class="d-flex justify-content-center mb-4 flex-wrap">
+        {% csrf_token %}
+        <div class="input-group mb-2" style="max-width: 600px;">
+            <input class="form-control" list="datalistOptions" name="genre" id="genre" placeholder="Type to search by genre">
+            <datalist id="datalistOptions">
+                <option value="Music">
+                <option value="Sports">
+                <option value="Theater">
+                <option value="Family">
+                <option value="Arts & Theater">
+                <option value="Concerts">
+                <option value="Comedy">
+                <option value="Dance">
+            </datalist>
+            <input type="text" class="form-control" name="city" id="city" placeholder="Enter a city e.g., Hartford">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-info text-center">{{ message }}</div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="eventsContainer" class="container {% if not events %}d-none{% endif %}">
+    {% if events %}
+        {% for event in events %}
+            <div class="card mx-auto mb-4 shadow" style="max-width: 900px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ event.image }}" class="img-fluid" alt="{{ event.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h5 class="card-title mb-0">{{ event.name }}</h5>
+                                <div class="text-end">
+                                    <p class="card-text text-primary-emphasis mb-0 fw-semibold">{{ event.date }}</p>
+                                    <p class="card-text text-secondary small mb-2">{{ event.time }}</p>
+
+                                    <a href="{{ event.ticket_url }}" target="_blank" class="btn btn-outline-primary btn-md mb-2">
+                                        Find Tickets
+                                    </a>
+
+                                    <form action="{% url 'add_favorite' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="name" value="{{ event.name }}">
+                                        <input type="hidden" name="image" value="{{ event.image }}">
+                                        <input type="hidden" name="date" value="{{ event.date }}">
+                                        <input type="hidden" name="time" value="{{ event.time }}">
+                                        <input type="hidden" name="venue" value="{{ event.venue }}">
+                                        <input type="hidden" name="address" value="{{ event.address }}">
+                                        <input type="hidden" name="ticket_url" value="{{ event.ticket_url }}">
+
+                                        <button type="submit" class="btn btn-outline-danger mt-2">
+                                            Favorite
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <p class="card-text mt-3 fs-5">
+                                {{ event.venue }}
+                            </p>
+                            <p class="card-text">
+                                <small class="text-body-secondary">{{ event.address }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#darkModeToggle').click(function() {
+
+        // Check if currently dark mode
+        if ($('body').hasClass('bg-dark')) {
+            // LIGHT MODE
+            $('body').removeClass('bg-dark text-light').addClass('bg-light text-dark');
+
+            // Cards
+            $('.card').each(function() {
+                $(this).removeClass('bg-dark text-light').addClass('bg-light text-dark');
+            });
+
+            // Headings
+            $('h1, h2, h3, h4, h5, h6').each(function() {
+                $(this).removeClass('text-light').addClass('text-dark');
+            });
+
+            // Paragraphs, small text, labels
+            $('p, small, label').each(function() {
+                $(this).removeClass('text-light').addClass('text-dark');
+            });
+
+            // Favorite buttons remain unchanged
+            // Other buttons remain unchanged
+
+            // Update button text
+            $('#darkModeToggle').text('🌙 Dark Mode');
+
+        } else {
+            // DARK MODE
+            $('body').removeClass('bg-light text-dark').addClass('bg-dark text-light');
+
+            // Cards
+            $('.card').each(function() {
+                $(this).removeClass('bg-light text-dark').addClass('bg-dark text-light');
+            });
+
+            // Headings
+            $('h1, h2, h3, h4, h5, h6').each(function() {
+                $(this).removeClass('text-dark').addClass('text-light');
+            });
+
+            // Paragraphs, small text, labels
+            $('p, small, label').each(function() {
+                $(this).removeClass('text-dark').addClass('text-light');
+            });
+
+            // Favorite buttons remain unchanged
+            // Other buttons remain unchanged
+
+            // Update button text
+            $('#darkModeToggle').text('☀ Light Mode');
+        }
+
+    });
+});
+</script>
+
+
+
+
+</body>
+</html>
