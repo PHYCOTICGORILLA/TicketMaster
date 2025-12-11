@@ -51,55 +51,38 @@
 $(document).ready(function() {
     $('#darkModeToggle').click(function() {
 
-        // Check if currently dark mode
         if ($('body').hasClass('bg-dark')) {
-            // LIGHT MODE
             $('body').removeClass('bg-dark text-light').addClass('bg-light text-dark');
 
-            // Cards
             $('.card').each(function() {
                 $(this).removeClass('bg-dark text-light').addClass('bg-light text-dark');
             });
 
-            // Headings
             $('h1, h2, h3, h4, h5, h6').each(function() {
                 $(this).removeClass('text-light').addClass('text-dark');
             });
 
-            // Paragraphs, small text, labels
             $('p, small, label').each(function() {
                 $(this).removeClass('text-light').addClass('text-dark');
             });
 
-            // Favorite buttons remain unchanged
-            // Other buttons remain unchanged
-
-            // Update button text
             $('#darkModeToggle').text('🌙 Dark Mode');
 
         } else {
-            // DARK MODE
             $('body').removeClass('bg-light text-dark').addClass('bg-dark text-light');
 
-            // Cards
             $('.card').each(function() {
                 $(this).removeClass('bg-light text-dark').addClass('bg-dark text-light');
             });
 
-            // Headings
             $('h1, h2, h3, h4, h5, h6').each(function() {
                 $(this).removeClass('text-dark').addClass('text-light');
             });
 
-            // Paragraphs, small text, labels
             $('p, small, label').each(function() {
                 $(this).removeClass('text-dark').addClass('text-light');
             });
-
-            // Favorite buttons remain unchanged
-            // Other buttons remain unchanged
-
-            // Update button text
+            
             $('#darkModeToggle').text('☀ Light Mode');
         }
 
