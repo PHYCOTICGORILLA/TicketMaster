@@ -12,7 +12,7 @@
     <a class="navbar-brand fs-3" href="/">TicketMaster</a>
     <div class="ms-auto d-flex align-items-center">
         <a href="{% url 'favorite_list' %}" class="btn btn-outline-light me-3">Favorites</a>
-<button id="darkModeToggle" class="btn btn-outline-light">🌙 Dark Mode</button>
+        <button id="darkModeToggle" class="btn btn-outline-light">🌙 Dark Mode</button>
     </div>
 </nav>
 
@@ -55,7 +55,7 @@
             <div class="card mx-auto mb-4 shadow" style="max-width: 900px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="{{ event.image }}" class="img-fluid" alt="{{ event.name }}">
+                        <img src="{{ event.image }}" alt="Event Image" style="width:100%; height:100%; object-fit:cover;" class="rounded">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -108,63 +108,46 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#darkModeToggle').click(function() {
+    $(document).ready(function() {
+        $('#darkModeToggle').click(function() {
 
-        // Check if currently dark mode
-        if ($('body').hasClass('bg-dark')) {
-            // LIGHT MODE
-            $('body').removeClass('bg-dark text-light').addClass('bg-light text-dark');
+            if ($('body').hasClass('bg-dark')) {
+                $('body').removeClass('bg-dark text-light').addClass('bg-light text-dark');
 
-            // Cards
-            $('.card').each(function() {
-                $(this).removeClass('bg-dark text-light').addClass('bg-light text-dark');
-            });
+                $('.card').each(function() {
+                    $(this).removeClass('bg-dark text-light').addClass('bg-light text-dark');
+                });
 
-            // Headings
-            $('h1, h2, h3, h4, h5, h6').each(function() {
-                $(this).removeClass('text-light').addClass('text-dark');
-            });
+                $('h1, h2, h3, h4, h5, h6').each(function() {
+                    $(this).removeClass('text-light').addClass('text-dark');
+                });
 
-            // Paragraphs, small text, labels
-            $('p, small, label').each(function() {
-                $(this).removeClass('text-light').addClass('text-dark');
-            });
+                $('p, small, label').each(function() {
+                    $(this).removeClass('text-light').addClass('text-dark');
+                });
 
-            // Favorite buttons remain unchanged
-            // Other buttons remain unchanged
+                $('#darkModeToggle').text('🌙 Dark Mode');
 
-            // Update button text
-            $('#darkModeToggle').text('🌙 Dark Mode');
+            } else {
+                $('body').removeClass('bg-light text-dark').addClass('bg-dark text-light');
 
-        } else {
-            // DARK MODE
-            $('body').removeClass('bg-light text-dark').addClass('bg-dark text-light');
+                $('.card').each(function() {
+                    $(this).removeClass('bg-light text-dark').addClass('bg-dark text-light');
+                });
 
-            // Cards
-            $('.card').each(function() {
-                $(this).removeClass('bg-light text-dark').addClass('bg-dark text-light');
-            });
+                $('h1, h2, h3, h4, h5, h6').each(function() {
+                    $(this).removeClass('text-dark').addClass('text-light');
+                });
 
-            // Headings
-            $('h1, h2, h3, h4, h5, h6').each(function() {
-                $(this).removeClass('text-dark').addClass('text-light');
-            });
+                $('p, small, label').each(function() {
+                    $(this).removeClass('text-dark').addClass('text-light');
+                });
 
-            // Paragraphs, small text, labels
-            $('p, small, label').each(function() {
-                $(this).removeClass('text-dark').addClass('text-light');
-            });
+                $('#darkModeToggle').text('☀ Light Mode');
+            }
 
-            // Favorite buttons remain unchanged
-            // Other buttons remain unchanged
-
-            // Update button text
-            $('#darkModeToggle').text('☀ Light Mode');
-        }
-
+        });
     });
-});
 </script>
 
 
